@@ -1,6 +1,6 @@
 {
   "name": "strapi-provider-email-mailersend-v2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Custom Strapi Provider Plugin For Email Using MailerSend",
   "main": "./lib/index.js",
   "directories": {
@@ -38,6 +38,9 @@
   "dependencies": {
     "mailersend": "^2.3.0",
     "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0"
   },
   "engines": {
     "node": ">=14 <=20",
