@@ -20,6 +20,7 @@
     "type": "git",
     "url": "https://github.com/cabrera-evil/strapi-provider-email-mailersend-v2"
   },
+  "license": "MIT",
   "author": {
     "name": "cabrera-evil",
     "email": "douglascabrera.dev@gmail.com"
@@ -33,14 +34,41 @@
   "source": "./src/index.ts",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "pnpm lint:check",
+      "pnpm format:check"
+    ]
   },
   "dependencies": {
     "mailersend": "^2.3.0",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
-    "@types/node": "^22.9.0"
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
   },
   "engines": {
     "node": ">=14 <=20",
