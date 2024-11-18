@@ -1,50 +1,16 @@
-import { Recipient, EmailParams, MailerSend, Attachment } from 'mailersend'
-import sharp from 'sharp'
-interface Settings {
-  defaultFrom: string
-  defaultReplyTo: string
-  defaultFromName: string
-}
+import { Attachment, EmailParams, MailerSend, Recipient } from 'mailersend';
+import sharp from 'sharp';
+import { splitNameEmail } from './helpers/split-name.helper';
+import { SendOptions } from './types/send-options.type';
+import { Settings } from './types/settings.type';
 
-interface SendOptions {
-  from?: string
-  to: string
-  cc: string
-  bcc: string
-  replyTo?: string
-  subject: string
-  text: string
-  html: string
-  attachments?: [
-    {
-      filename: string
-      type: string
-      content_id: string
-      content: Buffer | string
-      disposition: string
-    },
-  ]
-  [key: string]: unknown
-}
-function splitNameEmail(from?: string) {
-  //If no email bracket present, return as is
-  if (!from?.includes('<')) return ['', from]
-
-  //Split into name and email
-  let [name, email] = from.split('<')
-
-  //Trim and fix up
-  name = name.trim()
-  email = email.replace('>', '').trim()
-
-  //Return as array
-  return [name, email]
-}
 export = {
+  provider: 'mailersend',
+  name: 'Mailersend',
   init(providerOptions: { apiKey: string }, settings: Settings) {
     const mailersend = new MailerSend({
       apiKey: providerOptions.apiKey,
-    })
+    });
     return {
       async send(options: SendOptions) {
         const {
@@ -58,22 +24,21 @@ export = {
           html,
           attachments,
           ...rest
-        } = options
-        const _attachments: Attachment[] = []
-
+        } = options;
+        const _attachments: Attachment[] = [];
         for (const attachment of attachments ?? []) {
-          const isImage = attachment.type?.split('/')[0] === 'image'
+          const isImage = attachment.type?.split('/')[0] === 'image';
           let result =
             attachment.content instanceof Buffer
               ? attachment.content.toString('base64')
-              : attachment.content
+              : attachment.content;
           if (isImage) {
             const image =
               attachment.content instanceof Buffer
                 ? sharp(attachment.content)
-                : sharp(Buffer.from(attachment.content, 'base64'))
-            const resultImage = await image.png().toBuffer()
-            result = resultImage.toString('base64')
+                : sharp(Buffer.from(attachment.content, 'base64'));
+            const resultImage = await image.png().toBuffer();
+            result = resultImage.toString('base64');
           }
           _attachments.push({
             filename: isImage
@@ -82,12 +47,11 @@ export = {
             content: result,
             disposition: attachment.disposition,
             id: attachment.content_id,
-          })
+          });
         }
         return new Promise((resolve, reject) => {
-          const [nameFrom, emailFrom] = splitNameEmail(from as string)
-          const recipients = [new Recipient(to)]
-
+          const [nameFrom, emailFrom] = splitNameEmail(from as string);
+          const recipients = [new Recipient(to)];
           const emailParams = new EmailParams()
             .setFrom({
               email: emailFrom || settings.defaultFrom,
@@ -100,22 +64,22 @@ export = {
             .setSubject(subject)
             .setText(text)
             .setHtml(html)
-            .setAttachments(_attachments)
+            .setAttachments(_attachments);
           mailersend.email
             .send(emailParams)
             .then((response) => {
-              return resolve(response)
+              return resolve(response);
             })
             .catch((error) => {
-              console.error('Mailersend Error', error)
+              console.error('Mailersend Error', error);
               return resolve([
                 null,
                 [{ messages: [error.message] }],
                 'Mailersend Error',
-              ])
-            })
-        })
+              ]);
+            });
+        });
       },
-    }
+    };
   },
-}
+};
