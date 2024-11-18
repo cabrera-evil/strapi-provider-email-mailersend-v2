@@ -1,11 +1,12 @@
 {
   "name": "strapi-provider-email-mailersend-v2",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Custom Strapi Provider Plugin For Email Using MailerSend",
-  "main": "./lib/index.js",
-  "directories": {
-    "lib": "./lib"
-  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "keywords": [
     "strapi",
     "email",
@@ -31,8 +32,6 @@
       "email": "douglascabrera.dev@gmail.com"
     }
   ],
-  "source": "./src/index.ts",
-  "types": "./lib/index.d.ts",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
