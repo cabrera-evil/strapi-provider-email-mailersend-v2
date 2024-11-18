@@ -5,8 +5,8 @@ import { SendOptions } from './types/send-options.type';
 import { Settings } from './types/settings.type';
 
 export = {
-  provider: 'mailersend',
-  name: 'Mailersend',
+  provider: 'mailersend-v2',
+  name: 'MailerSend v2',
   init(providerOptions: { apiKey: string }, settings: Settings) {
     const mailersend = new MailerSend({
       apiKey: providerOptions.apiKey,
