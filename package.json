@@ -1,6 +1,6 @@
 {
   "name": "strapi-provider-email-mailersend-v2",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Custom Strapi Provider Plugin For Email Using MailerSend",
   "files": [
     "dist"

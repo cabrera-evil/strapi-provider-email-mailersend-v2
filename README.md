@@ -52,7 +52,7 @@ Configure the provider in your Strapi project:
 module.exports = {
   // ...
   email: {
-    provider: 'strapi-provider-email-mailersend-v2',
+    provider: 'mailersend-v2',
     providerOptions: {
       apiKey: 'your-api-key', // Required
     },
