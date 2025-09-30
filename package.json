@@ -55,7 +55,7 @@
     ]
   },
   "dependencies": {
-    "mailersend": "^2.3.0",
+    "mailersend": "^2.6.0",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
